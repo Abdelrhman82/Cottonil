@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - Cottonil Egypt</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="brand-logo-icon">
+                <i class="fas fa-layer-group"></i>
+            </div>
+            <div class="brand-text">
+                <h1>COTTONIL</h1>
+                <span>القطن بيتكلم مصري</span>
+            </div>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li>
+                <a href="#" class="nav-link active" data-target="overview">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Overview</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-target="branches">
+                    <i class="fas fa-store"></i>
+                    <span>Branch Performance</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-target="inventory">
+                    <i class="fas fa-boxes-stacked"></i>
+                    <span>Inventory & Supply</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-target="financials">
+                    <i class="fas fa-hand-holding-dollar"></i>
+                    <span>Profits & Expenses</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-target="customers">
+                    <i class="fas fa-users-viewfinder"></i>
+                    <span>Customer Intel</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-target="forecasting">
+                    <i class="fas fa-brain"></i>
+                    <span>ML Sales Forecast</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <span class="status-badge"></span>
+            <span>Production ML Active (v2.0)</span>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+        <!-- Top Navbar -->
+        <header class="top-navbar">
+            <div class="page-title">
+                <h2>Executive Overview</h2>
+                <p>High-level executive metrics, sales velocity, and company performance</p>
+            </div>
+            <div class="nav-controls">
+                <div class="badge-tag">
+                    <i class="fas fa-database"></i>
+                    <span>Data: As of Oct 2026</span>
+                </div>
+                <div class="badge-tag">
+                    <i class="fas fa-robot"></i>
+                    <span>Best Model: SARIMA + MA(3)</span>
+                </div>
+                <div class="user-profile">
+                    <div class="avatar">C</div>
+                    <div class="user-info">
+                        <div class="name">Senior Executive</div>
+                        <div class="role">Cottonil Management</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Body -->
+        <main class="content-body">
+            
+            <!-- Universal Top Executive KPI Cards -->
+            <div class="kpi-grid">
+                <!-- 1. YTD Sales -->
+                <div class="kpi-card accent-sales">
+                    <div class="kpi-header">
+                        <span class="kpi-title">2026 YTD Gross Sales</span>
+                        <div class="kpi-icon-wrap"><i class="fas fa-receipt"></i></div>
+                    </div>
+                    <div class="kpi-value">{{ "{:,.0f}".format(kpis.ytd_sales_egp) }} EGP</div>
+                    <div class="kpi-subtext">
+                        <span class="trend-up"><i class="fas fa-arrow-up"></i> {{ kpis.mom_growth_pct }}%</span>
+                        <span>vs previous month</span>
+                    </div>
+                </div>
+
+                <!-- 2. Customer Base -->
+                <div class="kpi-card accent-customers">
+                    <div class="kpi-header">
+                        <span class="kpi-title">Total Active Customers</span>
+                        <div class="kpi-icon-wrap"><i class="fas fa-users"></i></div>
+                    </div>
+                    <div class="kpi-value">{{ "{:,}".format(kpis.total_customers) }}</div>
+                    <div class="kpi-subtext">
+                        <span>Across Egyptian governorates</span>
+                    </div>
+                </div>
+
+                <!-- 3. Retail Branches -->
+                <div class="kpi-card accent-branches">
+                    <div class="kpi-header">
+                        <span class="kpi-title">Branch Network</span>
+                        <div class="kpi-icon-wrap"><i class="fas fa-store-alt"></i></div>
+                    </div>
+                    <div class="kpi-value">{{ kpis.total_branches }} Locations</div>
+                    <div class="kpi-subtext">
+                        <span>Street, Mall & Factory Outlets</span>
+                    </div>
+                </div>
+
+                <!-- 4. Inventory Valuation -->
+                <div class="kpi-card accent-inventory">
+                    <div class="kpi-header">
+                        <span class="kpi-title">Stock Valuation</span>
+                        <div class="kpi-icon-wrap"><i class="fas fa-warehouse"></i></div>
+                    </div>
+                    <div class="kpi-value">{{ "{:,.0f}".format(kpis.total_stock_value_egp) }} EGP</div>
+                    <div class="kpi-subtext">
+                        <span>{{ "{:,}".format(kpis.total_stock_units) }} total closing units</span>
+                    </div>
+                </div>
+
+                <!-- 5. Operating Profit -->
+                <div class="kpi-card accent-profit">
+                    <div class="kpi-header">
+                        <span class="kpi-title">Est. Operating Profit</span>
+                        <div class="kpi-icon-wrap"><i class="fas fa-coins"></i></div>
+                    </div>
+                    <div class="kpi-value">{{ "{:,.0f}".format(kpis.est_operating_profit_2026) }} EGP</div>
+                    <div class="kpi-subtext">
+                        <span class="trend-up"><i class="fas fa-shield-halved"></i> {{ kpis.profit_margin_pct }}%</span>
+                        <span>Operating Margin</span>
+                    </div>
+                </div>
+
+                <!-- 6. Next Month ML Forecast -->
+                <div class="kpi-card accent-forecast">
+                    <div class="kpi-header">
+                        <span class="kpi-title">Next Month ML Forecast</span>
+                        <div class="kpi-icon-wrap"><i class="fas fa-chart-line"></i></div>
+                    </div>
+                    <div class="kpi-value">{{ "{:,.0f}".format(kpis.forecast_next_month_egp) }} EGP</div>
+                    <div class="kpi-subtext">
+                        <span>SARIMA Projection (Nov 2026)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 1: OVERVIEW -->
+            <section id="overview" class="dashboard-section active">
+                <div class="panel-grid-2">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3><i class="fas fa-chart-area"></i> Revenue & Order Velocity (Monthly)</h3>
+                            <span class="subtitle">Long-term multi-year company revenue trajectory</span>
+                        </div>
+                        <div style="height: 320px;">
+                            <canvas id="salesTrendChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3><i class="fas fa-bullseye"></i> Executive Highlights</h3>
+                            <span class="subtitle">Summary operational status</span>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            <div style="padding: 12px; background: #F8FAFC; border-radius: 8px; border-left: 4px solid #0A3A82;">
+                                <div style="font-size: 13px; font-weight: 700; color: #0A3A82;">Sales Momentum</div>
+                                <div style="font-size: 12px; color: #64748B; margin-top: 4px;">
+                                    September revenue closed at 52.3M EGP. Current month-end projection expected at 28.8M - 30.2M EGP.
+                                </div>
+                            </div>
+                            <div style="padding: 12px; background: #F8FAFC; border-radius: 8px; border-left: 4px solid #10B981;">
+                                <div style="font-size: 13px; font-weight: 700; color: #10B981;">Profitability & Health</div>
+                                <div style="font-size: 12px; color: #64748B; margin-top: 4px;">
+                                    Healthy operating margins maintained above 90% against recurring OPEX and payroll.
+                                </div>
+                            </div>
+                            <div style="padding: 12px; background: #F8FAFC; border-radius: 8px; border-left: 4px solid #F59E0B;">
+                                <div style="font-size: 13px; font-weight: 700; color: #F59E0B;">Inventory & Supply Alerts</div>
+                                <div style="font-size: 12px; color: #64748B; margin-top: 4px;">
+                                    {{ kpis.high_risk_stockout_items }} stock locations flagged with high stockout risk (>70%).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: BRANCH PERFORMANCE -->
+            <section id="branches" class="dashboard-section">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-store"></i> Retail Branch Performance & Forecast Leaderboard</h3>
+                        <span class="subtitle">Complete performance of all 80 Cottonil branches</span>
+                    </div>
+                    <div class="table-responsive" style="max-height: 520px; overflow-y: auto;">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Branch ID</th>
+                                    <th>Branch Name</th>
+                                    <th>Governorate</th>
+                                    <th>Location Type</th>
+                                    <th>2026 Sales</th>
+                                    <th>Orders</th>
+                                    <th>Next Month Forecast</th>
+                                    <th>vs Last Year</th>
+                                </tr>
+                            </thead>
+                            <tbody id="branchesTableBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: INVENTORY -->
+            <section id="inventory" class="dashboard-section">
+                <div class="panel-grid-2">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3><i class="fas fa-boxes-packing"></i> Stock Valuation by Product Category</h3>
+                            <span class="subtitle">Current closing inventory distribution</span>
+                        </div>
+                        <div style="height: 320px;">
+                            <canvas id="categoryStockChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3><i class="fas fa-triangle-exclamation"></i> Critical Stockout Risk Locations</h3>
+                            <span class="subtitle">Locations requiring urgent replenishment</span>
+                        </div>
+                        <div class="table-responsive" style="max-height: 320px; overflow-y: auto;">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Location</th>
+                                        <th>Type</th>
+                                        <th>Category</th>
+                                        <th>Units</th>
+                                        <th>Value</th>
+                                        <th>Risk</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="riskStockTableBody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: FINANCIALS & PROFIT -->
+            <section id="financials" class="dashboard-section">
+                <div class="panel-grid-2">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3><i class="fas fa-scale-balanced"></i> Monthly Revenue vs. OPEX & Operating Margin</h3>
+                            <span class="subtitle">Profit & Loss view across last 22 months</span>
+                        </div>
+                        <div style="height: 330px;">
+                            <canvas id="profitTrendChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3><i class="fas fa-chart-pie"></i> Operating Expense Breakdown</h3>
+                            <span class="subtitle">Major expenditure categories for 2026</span>
+                        </div>
+                        <div style="height: 330px;">
+                            <canvas id="opexBreakdownChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: CUSTOMER INTEL -->
+            <section id="customers" class="dashboard-section">
+                <div class="panel-grid-2">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3><i class="fas fa-user-tag"></i> Customer Segmentation Share</h3>
+                            <span class="subtitle">VIP, Regular, New & Loyal Buyer Distributions</span>
+                        </div>
+                        <div style="height: 330px;">
+                            <canvas id="customerSegmentChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3><i class="fas fa-map-location-dot"></i> Top Egyptian Governorates by Customer Base</h3>
+                            <span class="subtitle">Regional customer density</span>
+                        </div>
+                        <div class="table-responsive" style="max-height: 330px; overflow-y: auto;">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Governorate</th>
+                                        <th>Customer Count</th>
+                                        <th>Share (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="govCustomersTableBody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 6: ML SALES FORECASTING -->
+            <section id="forecasting" class="dashboard-section">
+                
+                <!-- Interactive Simulator Box -->
+                <div class="sim-controls-card">
+                    <div class="sim-input-group">
+                        <label><i class="fas fa-shop"></i> Select Branch for What-If:</label>
+                        <select id="simBranchSelect">
+                            <option value="">-- Choose Branch --</option>
+                        </select>
+                    </div>
+                    <div class="sim-input-group">
+                        <label><i class="fas fa-percent"></i> Growth Scenario Adjustment (%):</label>
+                        <input type="number" id="simGrowthInput" value="5.0" step="0.5" placeholder="e.g. 5.0">
+                    </div>
+                    <div style="align-self: flex-end;">
+                        <button id="runSimBtn" class="btn-primary">
+                            <i class="fas fa-bolt"></i> Run What-If Simulation
+                        </button>
+                    </div>
+                </div>
+                <div id="simResultBox" style="display: none;"></div>
+
+                <!-- Multi-Month Company Forecast -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-chart-line"></i> Machine Learning Multi-Month Forecast (Company-wide)</h3>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="subtitle">Horizon:</span>
+                            <select id="horizonSelect" style="padding: 4px 8px; border-radius: 6px; border: 1px solid #CBD5E1; font-size: 12px;">
+                                <option value="3">3 Months</option>
+                                <option value="6" selected>6 Months</option>
+                                <option value="12">12 Months</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="height: 340px;">
+                        <canvas id="forecastOutlookChart"></canvas>
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
+
